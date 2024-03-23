@@ -25,6 +25,11 @@
             </div>
 
             <div class="section-body">
+                <div class="row">
+                    <div class="col-12">
+                        @include('layouts.alert')
+                    </div>
+                </div>
                 <h2 class="section-title">Category</h2>
 
 
@@ -38,6 +43,7 @@
                             <div class="form-group">
                                 <label>Name</label>
                                 <input type="text"
+                                value="{{old('name')}}"
                                     class="form-control @error('name')
                                 is-invalid
                             @enderror"
@@ -51,6 +57,7 @@
                             <div class="form-group">
                                 <label>Description</label>
                                 <input type="text"
+                                value="{{old('description')}}"
                                     class="form-control @error('description')
                                 is-invalid
                             @enderror"
@@ -65,6 +72,7 @@
 
                             <div class="form-group">
                                 <label class="form-label">Photo Category</label>
+
                                 <div class="col-sm-9">
                                     <input type="file" class="form-control" name="image"
                                         @error('image') is-invalid @enderror>

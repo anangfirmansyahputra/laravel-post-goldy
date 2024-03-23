@@ -29,6 +29,8 @@
                         <div class="card-header">
                             <h4>Input Text</h4>
                         </div>
+
+
                         <div class="card-body">
                             <div class="form-group">
                                 <label>Name</label>
@@ -43,6 +45,8 @@
                                     </div>
                                 @enderror
                             </div>
+
+                            
                             <div class="form-group">
                                 <label>Description</label>
                                 <input type="text"
