@@ -98,9 +98,18 @@ class CategoryController extends Controller
     //destroy
     public function destroy($id)
     {
-        //delete the request...
-        $category = Category::find($id);
-        $category->delete();
-        return redirect()->route('categories.index')->with('success', 'Category deleted successfully');
+        try {
+            //code...
+            //delete the request...
+            $category = Category::find($id);
+            $category->delete();
+            return redirect()->route('categories.index')->with('success', 'Category deleted successfully');
+        } catch (\Throwable $th) {
+            //throw $th;
+            if($th->errorInfo[1]===1451){
+                return redirect()->back()->with('error', 'Terdapat produk dengan Category ini!, Silahkan hapus produk terlebih dahulu');
+            }
+            return redirect()->back()->with('error', $th->getMessage());
+        }
     }
 }

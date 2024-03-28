@@ -70,7 +70,7 @@
                                                     {{ $product->category->name }}
                                                 </td>
                                                 <td>
-                                                    {{ $product->price }}
+                                                    Rp. {{ number_format($product->price, 0, ',', '.') }}
                                                 </td>
                                                 <td>
                                                     {{ $product->status == 1 ? 'Active' : 'Inactive' }}
