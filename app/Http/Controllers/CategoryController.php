@@ -91,7 +91,7 @@ class CategoryController extends Controller
             $category->image = 'storage/categories/' . $category->id . '.' . $image->getClientOriginalExtension();
             $category->save();
         }
-
+        $category->save();
         return redirect()->route('categories.index')->with('success', 'Category updated successfully');
     }
 

@@ -24,6 +24,9 @@
             <li class='{{ Request::is('dashboard-general-dashboard') ? 'active' : '' }}'>
                 <a href="{{ route('users.index') }}" class="nav-link">Users</a>
             </li>
+            <li class='{{ Request::is('dashboard-general-dashboard') ? 'active' : '' }}'>
+                <a href="{{ route('customers.index') }}" class="nav-link">Customers</a>
+            </li>
             <li class="nav-item dropdown">
                 <ul class="dropdown-menu">
                     <li class='{{ Request::is('dashboard-general-dashboard') ? 'active' : '' }}'>
@@ -49,8 +52,13 @@
                     <li class=''>
                         <a class="nav-link" href="{{ route('categories.index') }}">Categories</a>
                     </li>
-
                 </ul>
+
+                {{-- <ul class="dropdown-menu">
+                    <li class=''>
+                        <a class="nav-link" href="{{ route('customers.index') }}">Customers</a>
+                    </li>
+                </ul> --}}
             </li>
 
 </div>
