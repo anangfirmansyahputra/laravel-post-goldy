@@ -13,13 +13,16 @@
             </li>
             <li class="menu-header">Header</li>
             <li class='{{ Request::is('dashboard-general-dashboard') ? 'active' : '' }}'>
-                <a href="#" class="nav-link">Supplier</a>
+                <a href="{{ route('branches.index') }}" class="nav-link">Branch</a>
             </li>
             <li class='{{ Request::is('dashboard-general-dashboard') ? 'active' : '' }}'>
                 <a href="{{ route('categories.index') }}" class="nav-link">Category</a>
             </li>
             <li class='{{ Request::is('dashboard-general-dashboard') ? 'active' : '' }}'>
                 <a href="{{ route('products.index') }}" class="nav-link">Products</a>
+            </li>
+            <li class='{{ Request::is('dashboard-general-dashboard') ? 'active' : '' }}'>
+                <a href="#" class="nav-link">Stock</a>
             </li>
             <li class='{{ Request::is('dashboard-general-dashboard') ? 'active' : '' }}'>
                 <a href="{{ route('users.index') }}" class="nav-link">Users</a>
@@ -57,8 +60,8 @@
                 {{-- <ul class="dropdown-menu">
                     <li class=''>
                         <a class="nav-link" href="{{ route('customers.index') }}">Customers</a>
-                    </li>
-                </ul> --}}
             </li>
+        </ul> --}}
+        </li>
 
 </div>

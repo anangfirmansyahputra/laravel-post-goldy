@@ -24,17 +24,19 @@ class CategoryController extends Controller
     //store
     public function store(Request $request)
     {
+        // dd($request->all());
         try {
             //validate the request...
-            $validator = Validator::make($request->all(),[
+            $validator = Validator::make($request->all(), [
                 'name' => 'required',
+                'fragrances_status' => 'required|in:0,1',
                 'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             ]);
 
-            if($validator->fails()){
+            if ($validator->fails()) {
                 return redirect()->back()
-                ->withErrors($validator)
-                ->withInput();
+                    ->withErrors($validator)
+                    ->withInput();
             }
 
             //store the request...
@@ -54,7 +56,6 @@ class CategoryController extends Controller
         } catch (\Exception $th) {
             return redirect()->back()->with('error', $th->getMessage());
         }
-
     }
 
     //show
@@ -74,10 +75,17 @@ class CategoryController extends Controller
     public function update(Request $request, $id)
     {
         //validate the request...
-        $request->validate([
+        $validator = Validator::make($request->all(), [
             'name' => 'required',
-            // 'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'fragrances_status' => 'required|in:0,1',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
+
+        if ($validator->fails()) {
+            return redirect()->back()
+                ->withErrors($validator)
+                ->withInput();
+        }
 
         //update the request...
         $category = Category::find($id);
@@ -106,7 +114,7 @@ class CategoryController extends Controller
             return redirect()->route('categories.index')->with('success', 'Category deleted successfully');
         } catch (\Throwable $th) {
             //throw $th;
-            if($th->errorInfo[1]===1451){
+            if ($th->errorInfo[1] === 1451) {
                 return redirect()->back()->with('error', 'Terdapat produk dengan Category ini!, Silahkan hapus produk terlebih dahulu');
             }
             return redirect()->back()->with('error', $th->getMessage());

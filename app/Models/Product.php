@@ -18,10 +18,16 @@ class Product extends Model
         'status',
         'is_favorite',
         'category_id',
+        'branch_id',
     ];
 
     public function category()
     {
         return $this->belongsTo(Category::class);
+    }
+
+    public function fragrance()
+    {
+        return $this->hasOne(Fragrance::class, 'bottle_id');
     }
 }

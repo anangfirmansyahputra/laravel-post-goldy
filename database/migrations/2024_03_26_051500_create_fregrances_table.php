@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('name')->nullable();
             $table->string('concentration')->nullable();
-            $table->foreignId('bottle_id')->nullable()->constrained('products');
+            $table->foreignId('bottle_id')->constrained('products');
             $table->integer('gram')->nullable();
             $table->integer('mililiter')->nullable();
             $table->double('pump_weight')->nullable();

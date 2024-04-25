@@ -13,7 +13,11 @@ class Category extends Model
         'name',
         'description',
         'image',
+        'fragrances_status',
     ];
+
+    const STATUS_FRAGRANCE = 1;
+    const STATUS_NOT_FRAGRANCE = 0;
 
     public function products()
     {

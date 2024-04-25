@@ -20,6 +20,7 @@ class CategoryFactory extends Factory
             'name' => $this->faker->name,
             'description' => $this->faker->text,
             'image' => $this->faker->imageUrl(),
+            'fragrances_status' => $this->faker->boolean,
         ];
     }
 }

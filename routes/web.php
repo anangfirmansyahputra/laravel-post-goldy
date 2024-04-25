@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\BranchController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ProductController;
@@ -22,7 +23,7 @@ Route::get('/', function () {
     return view('pages.auth.login');
 });
 
-Route::middleware(['auth'])->group(function() {
+Route::middleware(['auth'])->group(function () {
     Route::get('home', function () {
         return view('pages.dashboard');
     })->name('home');
@@ -31,6 +32,7 @@ Route::middleware(['auth'])->group(function() {
     Route::resource('products', ProductController::class);
     Route::resource('categories', CategoryController::class);
     Route::resource('customers', CustomerController::class);
+    Route::resource('branches', BranchController::class);
 
 
     // Route::get('/users', function () {

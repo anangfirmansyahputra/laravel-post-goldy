@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Edit Category')
+@section('title', 'Branch Create')
 
 @push('style')
 <!-- CSS Libraries -->
@@ -15,71 +15,53 @@
 @section('main')
 <div class="main-content">
     <section class="section">
-
+        <div class="section-header">
+            <h1>Advanced Forms</h1>
+            <div class="section-header-breadcrumb">
+                <div class="breadcrumb-item active"><a href="#">Dashboard</a></div>
+                <div class="breadcrumb-item"><a href="#">Forms</a></div>
+                <div class="breadcrumb-item">Branch</div>
+            </div>
+        </div>
 
         <div class="section-body">
-            <h2 class="section-title">Category</h2>
-
+            <div class="row">
+                <div class="col-12">
+                    @include('layouts.alert')
+                </div>
+            </div>
+            <h2 class="section-title">Branch</h2>
 
 
             <div class="card">
-                <form action="{{ route('categories.update', $category) }}" method="POST">
+                <form action="{{ route('branches.store') }}" method="POST" enctype="multipart/form-data">
                     @csrf
-                    @method('PUT')
                     <div class="card-header">
                         <h4>Input Text</h4>
                     </div>
-
-
                     <div class="card-body">
                         <div class="form-group">
                             <label>Name</label>
-                            <input type="text" class="form-control @error('name')
+                            <input type="text" value="{{old('name')}}" class="form-control @error('name')
                                 is-invalid
-                            @enderror" name="name" value="{{ $category->name }}">
+                            @enderror" name="name">
                             @error('name')
                             <div class="invalid-feedback">
                                 {{ $message }}
                             </div>
                             @enderror
                         </div>
-
-
                         <div class="form-group">
-                            <label>Description</label>
-                            <input type="text" class="form-control @error('description')
+                            <label>Address</label>
+                            <input type="text" value="{{old('address')}}" class="form-control @error('address')
                                 is-invalid
-                            @enderror" name="description" value="{{ $category->description }}">
-                            @error('description')
+                            @enderror" name="address">
+                            @error('address')
                             <div class="invalid-feedback">
                                 {{ $message }}
                             </div>
                             @enderror
                         </div>
-
-                        <div class="form-group">
-                            <label>Status Fragrances?</label>
-                            <select name="fragrances_status" class="form-control @error('fragrances_status') is-invalid @enderror" id="">
-                                <option value=""></option>
-                                <option value="1" @if(old('fragrances_status', $category->fragrances_status) == '1') selected @endif>Ya</option>
-                                <option value="0" @if(old('fragrances_status', $category->fragrances_status) == '0') selected @endif>Tidak</option>
-                            </select>
-
-                            @error('fragrances_status')
-                            <div class="invalid-feedback">
-                                {{ $message }}
-                            </div>
-                            @enderror
-                        </div>
-
-
-                        <div class="form-group">
-                            <label class="form-label mt-4">Photo Product</label>
-                            <div class="col-sm-9">
-                                <input type="file" class="form-control" name="image" @error('image') is-invalid @enderror>
-                            </div>
-                        </div>
-
 
                     </div>
                     <div class="card-footer text-right">
