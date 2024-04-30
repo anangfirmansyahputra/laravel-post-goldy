@@ -13,14 +13,22 @@ use Illuminate\Support\Facades\Validator;
 class ProductController extends Controller
 {
     // index
-    public function index(Request $request)
+    public function index(Request $request, string $id)
     {
-        // Get all products with pagination and search functionality
-        $products = Product::when($request->input('name'), function ($query, $name) {
-            $query->where('name', 'like', '%' . $name . '%');
-        })->paginate(10);
+        $branch = Branch::find($id);
 
-        return view('pages.products.index', compact('products'));
+        if (!$branch) {
+            $branch = Branch::first();
+            return redirect()->route('home');
+        }
+
+        // Get all products with pagination and search functionality
+        $products = Product::where('branch_id', $id)->
+            when($request->input('name'), function ($query, $name) {
+                $query->where('name', 'like', '%' . $name . '%');
+            })->paginate(10);
+
+        return view('pages.products.index', compact('products', 'id'));
     }
 
 
@@ -33,9 +41,10 @@ class ProductController extends Controller
     }
 
     // store
-    public function store(Request $request)
+    public function store(Request $request, string $id)
     {
         try {
+
             $validator = Validator::make($request->all(), [
                 'name' => 'required',
                 'description' => 'required',
@@ -109,7 +118,7 @@ class ProductController extends Controller
             }
             DB::commit();
 
-            return redirect()->route('products.index')->with('success', 'Product created successfully');
+            return redirect()->route('products.index', compact('id'))->with('success', 'Product created successfully');
         } catch (\Exception $e) {
             DB::rollBack();
             return redirect()->back()->with('error', $e->getMessage());
@@ -134,7 +143,7 @@ class ProductController extends Controller
     }
 
     // update
-    public function update(Request $request, $id)
+    public function update(Request $request, string $id, $productId)
     {
         try {
             $validator = Validator::make($request->all(), [
@@ -154,7 +163,7 @@ class ProductController extends Controller
             }
 
             DB::beginTransaction();
-            $product = Product::find($id);
+            $product = Product::find($productId);
             $product->fill($request->only(['name', 'description', 'price', 'category_id', 'status', 'is_favorite', 'branch_id']));
 
 
@@ -216,7 +225,7 @@ class ProductController extends Controller
 
             DB::commit();
 
-            return redirect()->route('products.index')->with('success', 'Product updated successfully');
+            return redirect()->route('products.index', $id)->with('success', 'Product updated successfully');
         } catch (\Exception $e) {
             DB::rollBack();
             return redirect()->back()->with('error', $e->getMessage());
@@ -224,12 +233,12 @@ class ProductController extends Controller
     }
 
     // destroy
-    public function destroy($id)
+    public function destroy($id, $productId)
     {
         // delete the request...
-        $product = Product::find($id);
+        $product = Product::find($productId);
         $product->delete();
 
-        return redirect()->route('products.index')->with('success', 'Product deleted successfully');
+        return redirect()->route('products.index', $id)->with('success', 'Product deleted successfully');
     }
 }

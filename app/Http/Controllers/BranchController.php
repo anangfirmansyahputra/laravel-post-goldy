@@ -22,13 +22,13 @@ class BranchController extends Controller
      */
     public function create()
     {
-        return view('pages.branches.create');
+        return view('pages.branches.form');
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(Request $request, string $id)
     {
         try {
             //validate the request...
@@ -50,7 +50,7 @@ class BranchController extends Controller
 
             $category->save();
 
-            return redirect()->route('branches.index')->with('success', 'Branch created successfully');
+            return redirect()->route('branches.index', $id)->with('success', 'Branch created successfully');
         } catch (\Exception $th) {
             return redirect()->back()->with('error', $th->getMessage());
         }
@@ -67,24 +67,54 @@ class BranchController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(string $id, string $productId)
     {
-        //
+        $branches = Branch::find($productId);
+
+        return view("pages.branches.form", compact('branches'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, string $id, string $branchId)
     {
-        //
+        try {
+            //validate the request...
+            $validator = Validator::make($request->all(), [
+                'name' => 'required',
+                'address' => 'required',
+            ]);
+
+            if ($validator->fails()) {
+                return redirect()->back()
+                    ->withErrors($validator)
+                    ->withInput();
+            }
+
+            //store the request...
+
+            $category = Branch::find($branchId);
+            $category->name = $request->name;
+            $category->address = $request->address;
+
+            $category->save();
+
+            return redirect()->route('branches.index', $id)->with('success', 'Branch updated successfully');
+        } catch (\Exception $th) {
+            return redirect()->back()->with('error', $th->getMessage());
+        }
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(string $id, string $branchId)
     {
-        //
+        $branch = Branch::find($branchId);
+        $branch->delete();
+
+        return redirect()->route('branches.index', $id)->with('success', 'Branch deleted successfully');
+
     }
 }
