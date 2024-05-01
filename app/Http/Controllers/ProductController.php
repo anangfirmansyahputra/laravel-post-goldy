@@ -133,9 +133,10 @@ class ProductController extends Controller
     }
 
     // edit
-    public function edit($id)
+    public function edit($id, $productId)
     {
-        $product = Product::findOrFail($id);
+
+        $product = Product::findOrFail($productId);
         $categories = DB::table('categories')->get();
         $branches = Branch::all();
 
@@ -191,7 +192,7 @@ class ProductController extends Controller
 
             $product->save();
 
-            $fragrance = Fragrance::where('bottle_id', $id)->first();
+            $fragrance = Fragrance::where('bottle_id', $productId)->first();
             if ($fragrance) {
                 if ($product->category->fragrances_status == Category::STATUS_FRAGRANCE) {
                     $fragranceValidator = Validator::make($request->all(), [

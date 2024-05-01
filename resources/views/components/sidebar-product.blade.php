@@ -10,33 +10,29 @@
 
       <li
         class="{{ Request::is('home/*') && !Request::is('home/*/products') && !Request::is('home/*/products/*') && !Request::is('home/*/branches') && !Request::is('home/*/branches/*') ? 'active' : '' }}">
-        <a href="{{ route('dashboard', ['id' => App\Models\Branch::first()->id]) }}" class="nav-link">
+        <a href="{{ route('dashboard', ['id' => request()->route('id')]) }}" class="nav-link">
           <i class="fas fa-fire"></i><span>Dashboard</span>
         </a>
       </li>
 
       <li class="menu-header">Header</li>
-      <li class="{{ Request::is('branches') || Request::is('branches/*') ? 'active' : '' }}">
+      <li class="{{ Request::is('home/*/branches/*') || Request::is('home/*/branches') ? 'active' : '' }}">
         <a href="{{ route('branches.index') }}" class="nav-link">Branch</a>
       </li>
-      <li class='{{ Request::is('categories') || Request::is('categories/*') ? 'active' : '' }}'>
+      <li class='{{ Request::is('dashboard-general-dashboard') ? 'active' : '' }}'>
         <a href="{{ route('categories.index') }}" class="nav-link">Category</a>
       </li>
       <li class="{{ Request::is('home/*/products/*') || Request::is('home/*/products') ? 'active' : '' }}">
-        <a href="{{ route('products.index', ['id' => request()->route('id') ?? App\Models\Branch::first()->id]) }}"
-          class="nav-link">Products</a>
+        <a href="{{ route('products.index', ['id' => request()->route('id')]) }}" class="nav-link">Products</a>
       </li>
       <li class='{{ Request::is('dashboard-general-dashboard') ? 'active' : '' }}'>
         <a href="#" class="nav-link">Stock</a>
       </li>
-      <li class='{{ Request::is('users') || Request::is('users/*') ? 'active' : '' }}'>
+      <li class='{{ Request::is('dashboard-general-dashboard') ? 'active' : '' }}'>
         <a href="{{ route('users.index') }}" class="nav-link">Users</a>
       </li>
-      <li class='{{ Request::is('customers') || Request::is('customers/*') ? 'active' : '' }}'>
+      <li class='{{ Request::is('dashboard-general-dashboard') ? 'active' : '' }}'>
         <a href="{{ route('customers.index') }}" class="nav-link">Customers</a>
-      </li>
-      <li class='{{ Request::is('bundles') || Request::is('bundles/*') ? 'active' : '' }}'>
-        <a href="{{ route('bundles.index') }}" class="nav-link">Bundles</a>
       </li>
       <li class="nav-item dropdown">
         <ul class="dropdown-menu">

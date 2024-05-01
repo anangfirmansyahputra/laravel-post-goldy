@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Branch;
+use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -28,7 +29,7 @@ class BranchController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request, string $id)
+    public function store(Request $request)
     {
         try {
             //validate the request...
@@ -50,7 +51,7 @@ class BranchController extends Controller
 
             $category->save();
 
-            return redirect()->route('branches.index', $id)->with('success', 'Branch created successfully');
+            return redirect()->route('branches.index')->with('success', 'Branch created successfully');
         } catch (\Exception $th) {
             return redirect()->back()->with('error', $th->getMessage());
         }
@@ -67,9 +68,9 @@ class BranchController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id, string $productId)
+    public function edit(string $id)
     {
-        $branches = Branch::find($productId);
+        $branches = Branch::find($id);
 
         return view("pages.branches.form", compact('branches'));
     }
@@ -77,7 +78,7 @@ class BranchController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id, string $branchId)
+    public function update(Request $request, string $id)
     {
         try {
             //validate the request...
@@ -94,13 +95,13 @@ class BranchController extends Controller
 
             //store the request...
 
-            $category = Branch::find($branchId);
+            $category = Branch::find($id);
             $category->name = $request->name;
             $category->address = $request->address;
 
             $category->save();
 
-            return redirect()->route('branches.index', $id)->with('success', 'Branch updated successfully');
+            return redirect()->route('branches.index')->with('success', 'Branch updated successfully');
         } catch (\Exception $th) {
             return redirect()->back()->with('error', $th->getMessage());
         }
@@ -109,12 +110,22 @@ class BranchController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id, string $branchId)
+    public function destroy(string $id)
     {
-        $branch = Branch::find($branchId);
-        $branch->delete();
+        try {
+            $branches = Branch::all()->count();
+            if ($branches == 1) {
+                return redirect()->route('branches.index')->with('error', 'Please insert more branches for deleting this branches');
+            }
 
-        return redirect()->route('branches.index', $id)->with('success', 'Branch deleted successfully');
+            $branch = Branch::find($id);
+            $branch->delete();
+
+            return redirect()->route('branches.index')->with('success', 'Branch deleted successfully');
+        } catch (QueryException $e) {
+            return redirect()->route('branches.index')->with('error', 'Cannot delete branch due to constraint violation: ' . $e->getMessage());
+        }
+
 
     }
 }

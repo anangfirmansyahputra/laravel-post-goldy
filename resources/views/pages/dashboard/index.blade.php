@@ -23,10 +23,10 @@
             </div>
             <div class="card-wrap">
               <div class="card-header">
-                <h4>Total Admin</h4>
+                <h4>Total Customers</h4>
               </div>
               <div class="card-body">
-                10
+                {{ $customers }}
               </div>
             </div>
           </div>
@@ -38,10 +38,10 @@
             </div>
             <div class="card-wrap">
               <div class="card-header">
-                <h4>News</h4>
+                <h4>Products</h4>
               </div>
               <div class="card-body">
-                42
+                {{ $products }}
               </div>
             </div>
           </div>
@@ -53,10 +53,10 @@
             </div>
             <div class="card-wrap">
               <div class="card-header">
-                <h4>Reports</h4>
+                <h4>Transactions</h4>
               </div>
               <div class="card-body">
-                1,201
+                {{ $transactionsTotal }}
               </div>
             </div>
           </div>
@@ -68,10 +68,10 @@
             </div>
             <div class="card-wrap">
               <div class="card-header">
-                <h4>Online Users</h4>
+                <h4>Branches</h4>
               </div>
               <div class="card-body">
-                47
+                {{ $branchs->count() }}
               </div>
             </div>
           </div>
@@ -82,15 +82,15 @@
           <div class="card">
             <div class="card-header">
               <h4>Statistics</h4>
-              <div class="card-header-action">
+              {{-- <div class="card-header-action">
                 <div class="btn-group">
                   <a href="#" class="btn btn-primary">Week</a>
                   <a href="#" class="btn">Month</a>
                 </div>
-              </div>
+              </div> --}}
             </div>
             <div class="card-body">
-              <canvas id="myChart" height="182"></canvas>
+              <canvas id="myChartNew" height="182"></canvas>
               <div class="statistic-details mt-sm-4">
                 <div class="statistic-details-item">
                   <span class="text-muted"><span class="text-primary"><i class="fas fa-caret-up"></i></span> 7%</span>
@@ -707,5 +707,30 @@
         $("#exampleModalCenter").modal('hide');
       })
     })
+  </script>
+
+  <script>
+    const ctx = document.getElementById('myChartNew')
+
+    const transactions = {!! json_encode($transactions) !!};
+    console.log(transactions)
+
+    const data = {
+      labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Des"],
+      datasets: [{
+        label: 'Transaction',
+        data: transactions,
+        fill: false,
+        borderColor: 'rgb(75, 192, 192)',
+        tension: 0.1
+      }]
+    };
+
+    const config = {
+      type: 'line',
+      data: data,
+    };
+
+    new Chart(ctx, config)
   </script>
 @endpush

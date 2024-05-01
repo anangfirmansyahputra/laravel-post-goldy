@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\BranchController;
+use App\Http\Controllers\BundleController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ProductController;
@@ -38,17 +39,13 @@ Route::middleware(['auth'])->group(function () {
             'update' => 'products.update',
             'destroy' => 'products.destroy',
         ]);
-
-        // Branch
-        Route::get('/{id}/branches', [BranchController::class, 'index'])->name('branches.index');
-        Route::post('/{id}/branches', [BranchController::class, 'create'])->name('branches.create');
-        Route::get('/{id}/branches/{branch}', [BranchController::class, 'edit'])->name('branches.edit');
-        Route::put('/{id}/branches/{branch}', [BranchController::class, 'update'])->name('branches.update');
-        Route::delete('/{id}/branches/{branch}', [BranchController::class, 'destroy'])->name('branches.destroy');
-        Route::resource('users', UserController::class);
-        Route::resource('categories', CategoryController::class);
-        Route::resource('customers', CustomerController::class);
     });
+
+    Route::resource('branches', BranchController::class);
+    Route::resource('users', UserController::class);
+    Route::resource('categories', CategoryController::class);
+    Route::resource('customers', CustomerController::class);
+    Route::resource('bundles', BundleController::class);
 
 
 

@@ -34,8 +34,7 @@
 
 
         <div class="card">
-          <form
-            action="{{ isset($branches) ? route('branches.update', ['branch' => $branches->id, 'id' => request()->route('id')]) : route('branches.store', ['id' => request()->route('id')]) }}"
+          <form action="{{ isset($branches) ? route('branches.update', $branches->id) : route('branches.store') }}"
             enctype="multipart/form-data" method="POST">
             @csrf
             @if (isset($branches))
