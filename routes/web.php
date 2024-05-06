@@ -8,6 +8,7 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\StockController;
 use App\Models\Customer;
 
 /*
@@ -39,6 +40,8 @@ Route::middleware(['auth'])->group(function () {
             'update' => 'products.update',
             'destroy' => 'products.destroy',
         ]);
+
+        Route::resource('/{id}/stocks', StockController::class);
     });
 
     Route::resource('branches', BranchController::class);

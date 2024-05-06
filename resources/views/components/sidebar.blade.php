@@ -27,7 +27,8 @@
           class="nav-link">Products</a>
       </li>
       <li class='{{ Request::is('dashboard-general-dashboard') ? 'active' : '' }}'>
-        <a href="#" class="nav-link">Stock</a>
+        <a href="{{ route('stocks.index', ['id' => request()->route('id') ?? App\Models\Branch::first()->id]) }}"
+          class="nav-link">Stock</a>
       </li>
       <li class='{{ Request::is('users') || Request::is('users/*') ? 'active' : '' }}'>
         <a href="{{ route('users.index') }}" class="nav-link">Users</a>
